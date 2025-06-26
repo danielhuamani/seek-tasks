@@ -1,0 +1,10 @@
+fastapi[standard]==0.115.12
+pydantic-settings==2.8.1
+sqlmodel==0.0.24
+passlib[bcrypt]
+python-jose[cryptography]
+pymongo==4.13.2
+beanie
+pyjwt
+bcrypt<4.0.0
+

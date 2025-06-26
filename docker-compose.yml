@@ -1,0 +1,28 @@
+services:
+    seek_web:
+        build:
+            context: ./backend
+            dockerfile: docker/Dockerfile
+        restart: always
+        entrypoint: /docker-entrypoint.sh
+        volumes:
+            - ./backend/:/app
+        ports:
+            - "8000:8000"
+        env_file:
+            - ./.env
+        depends_on:
+            - seek_mongo
+    seek_mongo:
+        image: mongo:8
+        container_name: seek_mongo
+        env_file:
+            - ./.env
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./mongo_data:/data/db
+            - ./backend/docker/initdb/create_test_db.sh:/docker-entrypoint-initdb.d/create_test_db.sh:ro
+        
+volumes:
+  mongo_data:
