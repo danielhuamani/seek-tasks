@@ -1,13 +1,16 @@
 from contextlib import asynccontextmanager
 from logging import INFO, basicConfig, getLogger
-from pymongo import MongoClient
-from src.core.settings import settings
-from fastapi import FastAPI
 
-from src.auth.infrastructure.web import routes as auth_routes 
+from fastapi import FastAPI
+from pymongo import MongoClient
+
+from src.auth.infrastructure.web import routes as auth_routes
+from src.core.settings import settings
 from src.tasks.infrastructure.web import routes as task_routes
+
 logger = getLogger(__name__)
 basicConfig(level=INFO)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,7 +20,6 @@ async def lifespan(app: FastAPI):
         yield
     finally:
         app.mongodb_client.close()
-
 
 
 app = FastAPI(title="Seek Challenge", lifespan=lifespan)

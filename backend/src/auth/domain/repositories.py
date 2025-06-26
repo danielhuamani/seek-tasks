@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional
+
 from src.auth.domain.entities import UserEntity
+
 
 class UserRepositoryABC(ABC):
     @abstractmethod

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class UserEntity:
     _id: Optional[str] = None
@@ -10,6 +11,7 @@ class UserEntity:
     password: str = ""
     is_active: bool = True
     is_main: bool = False
+
 
 @dataclass
 class UserResponse:

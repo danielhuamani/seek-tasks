@@ -1,11 +1,14 @@
 import os
+
 import pytest
 from fastapi.testclient import TestClient
-from src.main import app
 from pymongo import MongoClient
+
+from src.main import app
 
 # os.environ["MONGO_URI"] = os.getenv("MONGO_TEST_URI")
 # os.environ["MONGO_DB_NAME"] = os.getenv("MONGO_TEST_DB_NAME")
+
 
 @pytest.fixture(scope="module")
 def client():
@@ -19,6 +22,7 @@ def client():
     app.database = test_db
     with TestClient(app) as c:
         yield c
+
 
 @pytest.fixture(autouse=True)
 def limpiar_tasks():

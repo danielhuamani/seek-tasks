@@ -1,10 +1,13 @@
 from dataclasses import asdict
-from typing import Optional, List
+from typing import List, Optional
+
 from bson import ObjectId
 from bson.errors import InvalidId
-from src.tasks.domain.entities import TaskEntity, TaskStatus
-from src.tasks.domain.repositories import TaskRepositoryABC
+
 from src.core.domain.exceptions import NotFoundException
+from src.tasks.domain.entities import TaskEntity
+from src.tasks.domain.repositories import TaskRepositoryABC
+
 
 class TaskRepository(TaskRepositoryABC):
     def __init__(self, db):
@@ -35,17 +38,14 @@ class TaskRepository(TaskRepositoryABC):
                 doc["_id"] = str(doc["_id"])
             tasks.append(TaskEntity(**doc))
         return tasks
-    
+
     def update(self, task_id: str, data: dict) -> bool:
-        data.pop('_id', None)
+        data.pop("_id", None)
         try:
             task_id = ObjectId(task_id)
         except InvalidId as e:
             raise NotFoundException("Invalid task ID") from e
-        result = self.collection.update_one(
-            {"_id": task_id},
-            {"$set": data}
-        )
+        result = self.collection.update_one({"_id": task_id}, {"$set": data})
         return result.modified_count > 0
 
     def delete(self, task_id: str) -> bool:

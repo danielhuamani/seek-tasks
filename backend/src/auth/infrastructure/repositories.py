@@ -1,8 +1,10 @@
 from dataclasses import asdict
 from typing import Optional
+
 from bson import ObjectId
 from pymongo.collection import Collection
-from src.auth.domain.entities import UserEntity, UserResponse
+
+from src.auth.domain.entities import UserEntity
 
 
 class UserRepository:

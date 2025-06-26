@@ -1,10 +1,13 @@
 from typing import Optional
+
+from passlib.context import CryptContext
+
+from src.auth.application.jwt_utils import create_access_token
 from src.auth.domain.entities import UserEntity, UserResponse
 from src.auth.domain.repositories import UserRepositoryABC
-from passlib.context import CryptContext
-from src.auth.application.jwt_utils import create_access_token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 class UserService:
     def __init__(self, repo: UserRepositoryABC):
@@ -22,7 +25,9 @@ class UserService:
             return None
         if not self.verify_password(password, user.password):
             return None
-        token = create_access_token({"sub": user.email, "user_id": str(getattr(user, 'id', None))})
+        token = create_access_token(
+            {"sub": user.email, "user_id": str(getattr(user, "id", None))}
+        )
         return token
 
     def get_by_email(self, email: str):
@@ -43,7 +48,7 @@ class UserService:
             last_name=created_user.last_name,
             email=created_user.email,
             is_active=created_user.is_active,
-            is_main=created_user.is_main
+            is_main=created_user.is_main,
         )
 
     def get_user_by_id(self, user_id: str) -> Optional[UserResponse]:
@@ -54,7 +59,6 @@ class UserService:
                 last_name=user.last_name,
                 email=user.email,
                 is_active=user.is_active,
-                is_main=user.is_main
+                is_main=user.is_main,
             )
         return None
-

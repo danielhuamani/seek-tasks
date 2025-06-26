@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
-from typing import Optional
 from enum import Enum
+from typing import Optional
+
+from pydantic import BaseModel
 
 
 class TaskStatus(str, Enum):
@@ -20,6 +21,7 @@ class TaskResponse(BaseModel):
     title: str
     description: str
     status: TaskStatus
+
 
 class TaskUpdateBody(BaseModel):
     title: Optional[str]

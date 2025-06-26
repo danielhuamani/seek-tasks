@@ -1,4 +1,5 @@
-from fastapi import Request, Depends
+from fastapi import Request
+
 
 def get_db(request: Request):
     return request.app.database
