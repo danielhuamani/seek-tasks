@@ -5,8 +5,6 @@ RUN apk update \
     && apk add postgresql-dev \
     && apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
     && apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    gdal-dev \
-    geos-dev \
     && pip install --upgrade pip \
     && pip install pipenv\
     && apk add jpeg-dev zlib-dev libjpeg \
