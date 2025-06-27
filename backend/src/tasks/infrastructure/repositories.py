@@ -16,6 +16,7 @@ class TaskRepository(TaskRepositoryABC):
     def create(self, task: TaskEntity) -> str:
         task_dict = asdict(task)
         task_dict.pop("_id", None)
+        print("task_dict", task_dict)
         result = self.collection.insert_one(task_dict)
         return str(result.inserted_id)
 

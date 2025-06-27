@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
-
+from datetime import datetime
 
 class TaskStatus(str, Enum):
     TODO = "todo"
@@ -21,6 +21,8 @@ class TaskResponse(BaseModel):
     title: str
     description: str
     status: TaskStatus
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
 
 class TaskUpdateBody(BaseModel):

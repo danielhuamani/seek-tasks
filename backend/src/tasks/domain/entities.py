@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Optional
@@ -17,8 +17,8 @@ class TaskEntity:
     description: str = ""
     status: TaskStatus = TaskStatus.TODO
     user_id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
 
 
 @dataclass
@@ -27,6 +27,5 @@ class TaskResponse:
     title: str
     description: str
     status: TaskStatus
-    user_id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    created_at: str
+    updated_at: str
