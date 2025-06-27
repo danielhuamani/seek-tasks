@@ -25,7 +25,6 @@ def test_create_task(client: TestClient):
         },
         headers={"Authorization": "Bearer fake-token"},
     )
-    print("******", response.status_code)
     assert response.status_code == 200
     data = response.json()
     assert data["title"] == "Test Task"

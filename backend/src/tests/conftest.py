@@ -12,9 +12,6 @@ from src.main import app
 
 @pytest.fixture(scope="module")
 def client():
-    print("*****" * 40)
-    print(os.environ["MONGO_TEST_URI"])
-    print(os.environ["MONGO_TEST_DB_NAME"])
     mongo_uri = os.environ["MONGO_TEST_URI"]
     mongo_db_name = os.environ["MONGO_TEST_DB_NAME"]
     client = MongoClient(mongo_uri)
