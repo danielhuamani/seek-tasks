@@ -9,7 +9,6 @@ RUN apk update \
     geos-dev \
     && pip install --upgrade pip \
     && pip install pipenv\
-    && pip install psycopg2 \
     && apk add jpeg-dev zlib-dev libjpeg \
     && apk add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev fontconfig ttf-dejavu  \
     && apk add xvfb \
