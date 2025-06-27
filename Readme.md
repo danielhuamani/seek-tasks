@@ -1,5 +1,10 @@
 # Seek Tasks
 
+## URLs de Producción
+
+- **Frontend:** [https://seek-tasks.vercel.app/](https://seek-tasks.vercel.app/)
+- **Backend (API Docs):** [https://54.166.26.43/docs](https://54.166.26.43/docs)
+
 Gestor de tareas fullstack con autenticación, API REST en FastAPI (Python), frontend en React + Vite + MUI y base de datos MongoDB.
 
 ## Requisitos
