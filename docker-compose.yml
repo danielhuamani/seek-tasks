@@ -2,7 +2,7 @@ services:
     seek_web:
         build:
             context: ./backend
-            dockerfile: docker/Dockerfile
+            dockerfile: docker/local/Dockerfile
         restart: always
         entrypoint: /docker-entrypoint.sh
         volumes:
