@@ -1,5 +1,7 @@
 # Seek Tasks
 
+Gestor de tareas fullstack con React y FastAPI.
+
 ## URLs de Producción
 
 - **Frontend:** [https://seek-tasks.vercel.app/](https://seek-tasks.vercel.app/)
