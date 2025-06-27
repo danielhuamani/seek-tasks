@@ -49,12 +49,12 @@ El backend sigue una arquitectura limpia (Clean Architecture) y DDD (Domain-Driv
 backend/src/
 ├── auth/                  # Autenticación y autorización
 │   ├── application/       # Lógica de aplicación (casos de uso)
-│   ├── domain/            # Entidades y value objects de dominio
+│   ├── domain/            # Entidades dominio
 │   └── infrastructure/    # Web (rutas, dependencias)
 ├── core/                  # Utilidades y base común
 ├── tasks/                 # Módulo de gestión de tareas
 │   ├── application/       # Servicios de aplicación (casos de uso)
-│   ├── domain/            # Entidades yrepositorios
+│   ├── domain/            # Entidades y repositorios
 │   ├── infrastructure/    # Persistencia y web (rutas, esquemas)
 │   └── ...
 └── ...
