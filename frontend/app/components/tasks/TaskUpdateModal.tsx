@@ -32,19 +32,16 @@ const TaskUpdateModal: React.FC<TaskUpdateModalProps> = ({ open, task, onClose, 
     }
   }, [task]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!task) return;
-    setLoading(true);
-    try {
-      const updated = await updateTask(task.id, { title, description, status });
-      onUpdate(updated);
-      onClose();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    onUpdate({
+      id: task.id,
+      title,
+      description,
+      status,
+    });
+    onClose();
   };
 
   return (

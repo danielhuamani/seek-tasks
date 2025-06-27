@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, CircularProgress, Chip, Button, Avatar, Stack, IconButton, Tooltip } from "@mui/material";
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { fetchTasks, createTask } from "../../services/tasks";
+import { fetchTasks, createTask, deleteTask, updateTask } from "../../services/tasks";
 import type { Task } from "../../interfaces/task";
 import { TASK_STATUS_LABELS } from "../../interfaces/task";
 import TaskCreateModal from "../../components/tasks/TaskCreateModal";
 import TaskUpdateModal from "../../components/tasks/TaskUpdateModal";
+import TaskDeleteModal from "../../components/tasks/TaskDeleteModal";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const handleOpenCreate = () => setOpenCreate(true);
   const handleCloseCreate = () => setOpenCreate(false);
   const handleCreateTask = (task: { title: string; description: string; status: keyof typeof TASK_STATUS_LABELS }) => {
@@ -28,15 +32,40 @@ export default function Home() {
     setOpenUpdate(false);
     setSelectedTask(null);
   };
-  const handleUpdateTask = (updatedTask: Task) => {
-    setTasks(prev => prev.map(t => (t.id === updatedTask.id ? updatedTask : t)));
+  const handleUpdateTask = (data: { id: string; title: string; description: string; status: keyof typeof TASK_STATUS_LABELS }) => {
+    updateTask(data.id, data)
+      .then(newTask => setTasks(prev => prev.map(t => t.id === newTask.id ? newTask : t)))
+      .catch(err => console.error('Error updating task:', err));
   };
+
+  const handleOpenDelete = (task: Task) => {
+    setSelectedTask(task);
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+    setSelectedTask(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedTask) return;
+    setLoadingDelete(true);
+    try {
+      const ok = await deleteTask(selectedTask.id);
+      if (ok) {
+        setTasks(prev => prev.filter(t => t.id !== selectedTask.id));
+      }
+      setOpenDelete(false);
+      setSelectedTask(null);
+    } catch (err) {
+      console.error('Error deleting task:', err);
+    } finally {
+      setLoadingDelete(false);
+    }
+  };
+
   const getInitial = (title: string) => title ? title[0].toUpperCase() : '?';
-  const formatDate = (date?: string) => {
-    if (!date) return '';
-    const d = new Date(date);
-    return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
@@ -105,7 +134,9 @@ export default function Home() {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Eliminar">
-                      <IconButton size="small" color="error"><DeleteIcon fontSize="small" /></IconButton>
+                      <IconButton size="small" color="error" onClick={() => handleOpenDelete(task)}>
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
                     </Tooltip>
                   </Paper>
                 ))
@@ -119,6 +150,13 @@ export default function Home() {
       task={selectedTask}
       onClose={handleCloseUpdate}
       onUpdate={handleUpdateTask}
+    />
+    <TaskDeleteModal
+      open={openDelete}
+      taskTitle={selectedTask?.title}
+      onClose={handleCloseDelete}
+      onConfirm={handleConfirmDelete}
+      loading={loadingDelete}
     />
     </Box>
   );
